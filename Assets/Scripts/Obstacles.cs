@@ -70,4 +70,14 @@ public class Obstacles : MonoBehaviour
         }
         return false;
     }
+
+    public int ScorePoints(float playerX) {
+        for (int i = 0; i < createdPipes; i++) {
+            if (!pipes[i].Scored && pipes[i].X < playerX) {
+                pipes[i].Scored = true;
+                return 1;
+            }
+        } 
+        return 0;
+    }
 }

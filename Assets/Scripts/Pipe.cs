@@ -9,6 +9,8 @@ public class Pipe : MonoBehaviour
     
     PipeBlock top, bot;
 
+    public bool Scored { get; set; }
+
     public float X { get { return x; } set { x = value; top.SetX(value); bot.SetX(value); } }
 
     public void CreateBlocks() {
@@ -20,6 +22,7 @@ public class Pipe : MonoBehaviour
         top.SetY(gapY + gapSize + top.transform.localScale.y / 2f);
         bot.SetY(gapY - gapSize - top.transform.localScale.y / 2f);
         X = x;
+        Scored = false;
     }
 
     public bool CheckCollisionSquare(Vector2 position, float size) {
