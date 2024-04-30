@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bird : MonoBehaviour
 {
     [SerializeField]
-    float flapSpeed, gravity, terminalVelocity;
+    float flapSpeed, gravity, terminalVelocity, startY;
 
     float velocity;
 
@@ -13,12 +13,20 @@ public class Bird : MonoBehaviour
         velocity = flapSpeed;
     }
 
-    void Update() {
+    public void Reset() {
+        velocity = 0;
+        Vector2 position = transform.position;
+        position.y = startY;
+        transform.position = position;
+    }
+
+    public bool MoveAndCheckEdgeCollision() {
         Vector2 position = transform.position;
         velocity = Mathf.Max(terminalVelocity, velocity - gravity * Time.deltaTime);
         position.y += velocity * Time.deltaTime;
 
-        if (position.y < -4.5) position.y = 4.5f;
         transform.position = position;
+        
+        return position.y < -4.5 || position.y > 4.5;
     }
 }

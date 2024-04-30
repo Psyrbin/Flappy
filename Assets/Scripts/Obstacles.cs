@@ -31,6 +31,15 @@ public class Obstacles : MonoBehaviour
         lastPipeDistance = 0;
     }
 
+    public void Dispose() {
+        for (int i = 0; i < createdPipes; i++) {
+            pipes[i].CleanUp();
+            Destroy(pipes[i].gameObject);
+        }
+        pipes = null;
+        createdPipes = 0;
+    }
+
     public void MovePipes() {
         float moveDistance = speed * Time.deltaTime;
         for (int i = 0; i < createdPipes; i++) {

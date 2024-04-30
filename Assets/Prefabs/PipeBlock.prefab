@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5808390020277527936}
   - component: {fileID: 888570212369980759}
-  - component: {fileID: 3748602437367723609}
+  - component: {fileID: 4534678091370306858}
   m_Layer: 0
   m_Name: PipeBlock
   m_TagString: Untagged
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3748602437367723609
+--- !u!114 &4534678091370306858
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

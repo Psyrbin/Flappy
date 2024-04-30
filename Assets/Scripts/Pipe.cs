@@ -28,4 +28,9 @@ public class Pipe : MonoBehaviour
     public bool CheckCollisionSquare(Vector2 position, float size) {
         return top.CheckCollisionSquare(position, size) || bot.CheckCollisionSquare(position, size);
     }
+
+    public void CleanUp() {
+        Destroy(top.gameObject);
+        Destroy(bot.gameObject);
+    }
 }
