@@ -18,16 +18,20 @@ public class Game : MonoBehaviour
     [SerializeField]
     AudioClip flapSound, crashSound, pointSound;
 
+    [SerializeField]
+    Canvas pauseScreen;
+
     int score;
 
-    bool started;
+    bool started, paused;
 
     AudioSource audioSource;
 
     void Start() {
         started = false;
+        pauseScreen.enabled = false;
+        paused = false;
         scoreText.SetText("PRESS SPACE");
-        audioSource = GetComponent<AudioSource>();
     }
 
     void StartNewGame() {
@@ -40,6 +44,18 @@ public class Game : MonoBehaviour
     }
 
     void Update() {
+        if (paused) {
+            if (Input.GetKeyDown(KeyCode.Escape)) {
+                UnPause();
+            }
+            return;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            Pause();
+            return;
+        }
+
         if (!started) {
             if (Input.GetKeyDown(KeyCode.Space)) {
                 StartNewGame();
@@ -67,5 +83,15 @@ public class Game : MonoBehaviour
             score += score_update;
         }
         scoreText.SetText("{0}", score);
+    }
+
+    void Pause() {
+        paused = true;
+        pauseScreen.enabled = true;
+    }
+
+    void UnPause() {
+        paused = false;
+        pauseScreen.enabled = false;
     }
 }
