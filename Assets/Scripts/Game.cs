@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
@@ -20,6 +21,9 @@ public class Game : MonoBehaviour
 
     [SerializeField]
     Canvas pauseScreen;
+
+    [SerializeField]
+    Background background;
 
     int score;
 
@@ -69,6 +73,8 @@ public class Game : MonoBehaviour
         }
 
         bool edgeCollision = bird.MoveAndCheckEdgeCollision();
+
+        background.Scroll();
 
         obstacles.MovePipes();
         if (edgeCollision || obstacles.CheckCollisionSquare(bird.transform.position, bird.transform.localScale.x / 2)) {
