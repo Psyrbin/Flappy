@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using TMPro;
 using UnityEngine;
 using UnityEngine.AI;
@@ -7,6 +8,11 @@ using UnityEngine.UI;
 
 public class Game : MonoBehaviour
 {
+
+    struct State {
+        public int highScore, numRuns;
+    }
+
     [SerializeField]
     Bird bird;
 
@@ -29,9 +35,14 @@ public class Game : MonoBehaviour
 
     bool started, paused;
 
+    State state;
+
     AudioSource audioSource;
 
+    string savePath = "save.txt";
+
     void Start() {
+        LoadState(savePath);
         started = false;
         pauseScreen.enabled = false;
         paused = false;
@@ -79,8 +90,11 @@ public class Game : MonoBehaviour
         obstacles.MovePipes();
         if (edgeCollision || obstacles.CheckCollisionSquare(bird.transform.position, bird.transform.localScale.x / 2)) {
             started = false;
+            state.highScore = Mathf.Max(state.highScore, score);
+            state.numRuns += 1;
+            SaveState(savePath);
             SoundManager.Instance.PlaySound(crashSound, 0.31f);
-            scoreText.SetText("{0}\nGAME OVER", score);
+            scoreText.SetText("{0}\nBEST: {1}\nTOTAL TRIES: {2}\nGAME OVER", score, state.highScore, state.numRuns);
             return;
         } 
         int score_update = obstacles.ScorePoints(bird.transform.position.x);
@@ -99,5 +113,19 @@ public class Game : MonoBehaviour
     void UnPause() {
         paused = false;
         pauseScreen.enabled = false;
+    }
+
+    void SaveState(string path) {
+        string serializedState = JsonUtility.ToJson(state);
+        File.WriteAllText(path, serializedState);
+    }
+
+    void LoadState(string path) {
+        if (!File.Exists(path)) {
+            state = new State{highScore = 0, numRuns = 0};
+        } else {
+            string serializedState = File.ReadAllText(path);
+            state = JsonUtility.FromJson<State>(serializedState);
+        }
     }
 }
