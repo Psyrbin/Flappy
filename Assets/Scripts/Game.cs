@@ -46,16 +46,28 @@ public class Game : MonoBehaviour
         started = false;
         pauseScreen.enabled = false;
         paused = false;
+        bird.StopAnimating();
         scoreText.SetText("PRESS SPACE");
     }
 
     void StartNewGame() {
         obstacles.Dispose();
         bird.Reset();
+        bird.StartAnimating();
         obstacles.Initialize(Camera.main.orthographicSize * Screen.width / Screen.height + 0.5f);
         score = 0;
         scoreText.SetText("{0}", score);
         started = true;
+    }
+
+    void EndGame() {
+        started = false;
+        state.highScore = Mathf.Max(state.highScore, score);
+        state.numRuns += 1;
+        SaveState(savePath);
+        SoundManager.Instance.PlaySound(crashSound, 0.31f);
+        bird.StopAnimating();
+        scoreText.SetText("{0}\nBEST: {1}\nTOTAL TRIES: {2}\nGAME OVER", score, state.highScore, state.numRuns);
     }
 
     void Update() {
@@ -89,14 +101,10 @@ public class Game : MonoBehaviour
 
         obstacles.MovePipes();
         if (edgeCollision || obstacles.CheckCollisionSquare(bird.transform.position, bird.transform.localScale.x / 2)) {
-            started = false;
-            state.highScore = Mathf.Max(state.highScore, score);
-            state.numRuns += 1;
-            SaveState(savePath);
-            SoundManager.Instance.PlaySound(crashSound, 0.31f);
-            scoreText.SetText("{0}\nBEST: {1}\nTOTAL TRIES: {2}\nGAME OVER", score, state.highScore, state.numRuns);
+            EndGame();
             return;
         } 
+
         int score_update = obstacles.ScorePoints(bird.transform.position.x);
         if (score_update > 0) {
             SoundManager.Instance.PlaySound(pointSound);
@@ -107,11 +115,13 @@ public class Game : MonoBehaviour
 
     void Pause() {
         paused = true;
+        bird.StopAnimating();
         pauseScreen.enabled = true;
     }
 
     void UnPause() {
         paused = false;
+        bird.StartAnimating();
         pauseScreen.enabled = false;
     }
 

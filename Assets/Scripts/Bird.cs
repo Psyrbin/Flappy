@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bird : MonoBehaviour
 {
     [SerializeField]
-    float flapSpeed, gravity, terminalVelocity, startY;
+    float flapSpeed, gravity, terminalVelocity, startY, animationSpeed;
 
     float velocity;
 
@@ -28,5 +28,15 @@ public class Bird : MonoBehaviour
         transform.position = position;
         
         return position.y < -4.5 || position.y > 4.5;
+    }
+
+    public void StopAnimating() {
+        Animator animator= GetComponent<Animator>();
+        animator.speed = 0;
+    }
+
+    public void StartAnimating() {
+        Animator animator = GetComponent<Animator>();
+        animator.speed = animationSpeed;
     }
 }
