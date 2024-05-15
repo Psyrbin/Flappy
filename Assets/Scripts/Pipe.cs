@@ -14,7 +14,7 @@ public class Pipe : MonoBehaviour
     public float X { get { return x; } set { x = value; top.SetX(value); bot.SetX(value); } }
 
     public void CreateBlocks() {
-        top = Instantiate(pipeBlock);
+        top = Instantiate(pipeBlock, transform.position, Quaternion.Euler(0, 0, 180));
         bot = Instantiate(pipeBlock);
     }
 

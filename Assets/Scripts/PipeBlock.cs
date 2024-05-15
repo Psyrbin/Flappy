@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class PipeBlock : MonoBehaviour
 {
+    [SerializeField]
+    SpriteRenderer sprite;
+
     public bool CheckCollisionSquare(Vector2 position, float size) {
         float left = transform.position.x - transform.localScale.x / 2f;
         float right = transform.position.x + transform.localScale.x / 2f;
@@ -10,11 +13,11 @@ public class PipeBlock : MonoBehaviour
 
         bool collision =  position.x + size > left && position.x - size < right && position.y + size > bot && position.y - size < top;
 
-        SpriteRenderer renderer = GetComponent<SpriteRenderer>();
+        // SpriteRenderer renderer = GetComponent<SpriteRenderer>();
         if (collision) {
-            renderer.color = Color.red;
+            sprite.color = Color.red;
         } else {
-            renderer.color = Color.green;
+            sprite.color = Color.white;
         }
 
         return collision;
