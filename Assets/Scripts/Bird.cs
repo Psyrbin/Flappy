@@ -24,11 +24,8 @@ public class Bird : MonoBehaviour
     }
 
     public bool MoveAndCheckEdgeCollision() {
-        Vector2 position = transform.position;
         velocity = Mathf.Max(terminalVelocity, velocity - gravity * Time.deltaTime);
-        position.y += velocity * Time.deltaTime;
-
-        transform.position = position;
+        Vector3 position = UpdatePosition();
         
         return position.y < -4.5 || position.y > 4.5;
     }
@@ -40,10 +37,15 @@ public class Bird : MonoBehaviour
 
     public void Fall() {
         if (freeFalling) {
-            Vector2 position = transform.position;
-            position.y += velocity * Time.deltaTime;
-            transform.position = position;
+            UpdatePosition();
         }
+    }
+
+    Vector3 UpdatePosition() {
+        Vector2 position = transform.position;
+        position.y += velocity * Time.deltaTime;
+        transform.position = position;
+        return position;
     }
 
     public void StopAnimating() {
