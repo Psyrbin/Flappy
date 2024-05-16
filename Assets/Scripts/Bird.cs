@@ -9,11 +9,14 @@ public class Bird : MonoBehaviour
 
     float velocity;
 
+    bool freeFalling;
+
     public void Flap() {
         velocity = flapSpeed;
     }
 
     public void Reset() {
+        freeFalling = false;
         velocity = 0;
         Vector2 position = transform.position;
         position.y = startY;
@@ -28,6 +31,19 @@ public class Bird : MonoBehaviour
         transform.position = position;
         
         return position.y < -4.5 || position.y > 4.5;
+    }
+
+    public void StartFreeFall() {
+        freeFalling = true;
+        velocity = terminalVelocity;
+    }
+
+    public void Fall() {
+        if (freeFalling) {
+            Vector2 position = transform.position;
+            position.y += velocity * Time.deltaTime;
+            transform.position = position;
+        }
     }
 
     public void StopAnimating() {

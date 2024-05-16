@@ -62,6 +62,7 @@ public class Game : MonoBehaviour
 
     void EndGame() {
         started = false;
+        bird.StartFreeFall();
         state.highScore = Mathf.Max(state.highScore, score);
         state.numRuns += 1;
         SaveState(savePath);
@@ -87,6 +88,7 @@ public class Game : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.Space)) {
                 StartNewGame();
             }
+            bird.Fall();
             return;
         }
 
